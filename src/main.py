@@ -42,10 +42,16 @@ def match_template(template_path, confidence_threshold=0.7):
     except Exception as e:
         print(f"Error: {e}")
 
+
+
 if __name__ == "__main__":
-    template_path = os.getcwd() + "\\5g_claim.png"
-    print(template_path)
+    template_5g = os.getcwd() + "\\5g_claim.png"
+    floating_template = os.getcwd() + "\\floating_down.png"
+    retry_template = os.getcwd() + "\\retry.png"
+    print(template_5g)
 
     while True:    
-        match_template(template_path)
-        time.sleep(10)
+        match_template(template_5g)
+        match_template(floating_template)
+        match_template(retry_template)
+        time.sleep(2)
