@@ -29,19 +29,18 @@ def match_template(template_path, confidence_threshold=0.7):
         if max_val >= confidence_threshold:
             center_x = max_loc[0] + template_width // 2
             center_y = max_loc[1] + template_height // 2
-            return True, (center_x, center_y)
+            return True, center_x, center_y
         else:
-            return False, (0, 0)
+            return False, 0, 0
 
     except Exception as e:
         print(f"Error: {e}")
 
-def click(valid, position):
-    if valid and position:
-        x, y = position
+def click(valid, x, y):
+    if valid:
         pyautogui.click(x, y)
     else:
-        print("bad click pos")
+        pass
 
 
 if __name__ == "__main__":
@@ -58,27 +57,34 @@ if __name__ == "__main__":
         os.getcwd() + "\\jacob_img\\floating_down.png",
         os.getcwd() + "\\jacob_img\\floating_left.png",
         os.getcwd() + "\\jacob_img\\floating_right.png",
-        os.getcwd() + "\\jacob_img\\5g_claim.png",
-        os.getcwd() + "\\jacob_img\\health.png"
+        os.getcwd() + "\\jacob_img\\5g_claim.png"
+        # os.getcwd() + "\\jacob_img\\health.png"
     ]
+    iter = 0
 
     while True:
+        iter += 1
         retry_clicked = False
         success = False
 
         for template_path in templates:
-            success, position = match_template(template_path)
-            click(success, position)
+            success, x, y = match_template(template_path)
+            click(success, x, y)
+
+        if iter == 20:
+            success, x, y = match_template(health_template)
+            click(success, x + 120, y)
+            iter = 0
         
-        retry_clicked, retry_position = match_template(retry_template)
-        click(retry_clicked, retry_position)
+        retry_clicked, x, y = match_template(retry_template)
+        click(retry_clicked, x, y)
 
         if retry_clicked:
             once = False
             time.sleep(1)
             while once is False:
-                once, def_position = match_template(defense_stats_template)
-                click(once, def_position)
+                once, x, y = match_template(defense_stats_template)
+                click(once, x, y)
 
         time.sleep(0.1)
         # match_template(template_5g)
