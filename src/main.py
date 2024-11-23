@@ -91,3 +91,4 @@ if __name__ == "__main__":
         # match_template(floating_template_d)
         # match_template(floating_template_l)
         # match_template(floating_template_r)
+# just iterate over the prio list and rip the first perk that passes
