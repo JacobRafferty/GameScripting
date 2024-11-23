@@ -26,37 +26,28 @@ def match_template(template_path, confidence_threshold=0.7):
 
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
 
-        # print(f"Matching confidence: {max_val * 100:.2f}%")
-
-        # If the confidence is above the threshold, click
         if max_val >= confidence_threshold:
             center_x = max_loc[0] + template_width // 2
             center_y = max_loc[1] + template_height // 2
-            # print(f"Match found at: ({center_x}, {center_y})")
 
             pyautogui.click(center_x, center_y)
-            # print("Clicked on the matched location.")
         else:
             pass
-            # print("No match found with sufficient confidence.")
 
     except Exception as e:
         print(f"Error: {e}")
 
 
-
 if __name__ == "__main__":
     template_5g = os.getcwd() + "\\5g_claim.png"
-    floating_template = os.getcwd() + "\\floating_down.png"
-    floating_template = os.getcwd() + "\\floating_left.png"
-    floating_template = os.getcwd() + "\\floating_right.png"
+    floating_template_d = os.getcwd() + "\\floating_down.png"
+    floating_template_l = os.getcwd() + "\\floating_left.png"
+    floating_template_r = os.getcwd() + "\\floating_right.png"
     retry_template = os.getcwd() + "\\retry_bigger.png"
-    print(template_5g)
 
     while True:    
         match_template(template_5g)
-        match_template(floating_template)
-        match_template(floating_template)
-        match_template(floating_template)
+        match_template(floating_template_d)
+        match_template(floating_template_l)
+        match_template(floating_template_r)
         match_template(retry_template)
-        # time.sleep(2)
