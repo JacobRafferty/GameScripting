@@ -39,11 +39,11 @@ def match_template(template_path, confidence_threshold=0.7):
 
 
 if __name__ == "__main__":
-    template_5g = os.getcwd() + "\\5g_claim.png"
-    floating_template_d = os.getcwd() + "\\floating_down.png"
-    floating_template_l = os.getcwd() + "\\floating_left.png"
-    floating_template_r = os.getcwd() + "\\floating_right.png"
-    retry_template = os.getcwd() + "\\retry_bigger.png"
+    template_5g = os.getcwd() + "\\jacob_img\\\\5g_claim.png"
+    floating_template_d = os.getcwd() + "\\jacob_img\\floating_down.png"
+    floating_template_l = os.getcwd() + "\\jacob_img\\\\floating_left.png"
+    floating_template_r = os.getcwd() + "\\jacob_img\\\\floating_right.png"
+    retry_template = os.getcwd() + "\\jacob_img\\\\retry_bigger.png"
 
     while True:    
         match_template(template_5g)
