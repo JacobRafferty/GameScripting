@@ -45,7 +45,7 @@ def click(valid, position):
 
 
 if __name__ == "__main__":
-    template_5g = os.getcwd() + "\\jacob_img\\\\5g_claim.png"
+    template_5g = os.getcwd() + "\\jacob_img\\5g_claim.png"
     floating_template_d = os.getcwd() + "\\jacob_img\\floating_down.png"
     floating_template_l = os.getcwd() + "\\jacob_img\\floating_left.png"
     floating_template_r = os.getcwd() + "\\jacob_img\\floating_right.png"
@@ -54,12 +54,12 @@ if __name__ == "__main__":
     health_template = os.getcwd() + "\\jacob_img\\health.png"
 
     templates = [
-        # "\\jacob_img\\\\retry_bigger.png",
-        "\\jacob_img\\floating_down.png",
-        "\\jacob_img\\floating_left.png",
-        "\\jacob_img\\floating_right.png",
-        "\\jacob_img\\5g_claim.png",
-        "\\jacob_img\\health.png"
+        # os.getcwd() + "\\jacob_img\\\\retry_bigger.png",
+        os.getcwd() + "\\jacob_img\\floating_down.png",
+        os.getcwd() + "\\jacob_img\\floating_left.png",
+        os.getcwd() + "\\jacob_img\\floating_right.png",
+        os.getcwd() + "\\jacob_img\\5g_claim.png",
+        os.getcwd() + "\\jacob_img\\health.png"
     ]
 
     while True:
