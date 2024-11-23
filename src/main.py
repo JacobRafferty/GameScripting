@@ -31,7 +31,7 @@ def match_template(template_path, confidence_threshold=0.7):
             center_y = max_loc[1] + template_height // 2
             return True, (center_x, center_y)
         else:
-            return False (0, 0)
+            return False, (0, 0)
 
     except Exception as e:
         print(f"Error: {e}")
