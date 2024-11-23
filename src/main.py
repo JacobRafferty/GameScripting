@@ -29,14 +29,19 @@ def match_template(template_path, confidence_threshold=0.7):
         if max_val >= confidence_threshold:
             center_x = max_loc[0] + template_width // 2
             center_y = max_loc[1] + template_height // 2
-
-            pyautogui.click(center_x, center_y)
-            return True
+            return True, (center_x, center_y)
         else:
-            return False
+            return False (0, 0)
 
     except Exception as e:
         print(f"Error: {e}")
+
+def click(valid, position):
+    if valid and position:
+        x, y = position
+        pyautogui.click(x, y)
+    else:
+        print("bad click pos")
 
 
 if __name__ == "__main__":
@@ -57,17 +62,23 @@ if __name__ == "__main__":
         "\\jacob_img\\health.png"
     ]
 
-    while True:    
+    while True:
+        retry_clicked = False
+        success = False
+
         for template_path in templates:
-            match_template(template_path)
+            success, position = match_template(template_path)
+            click(success, position)
         
-        retry_clicked = match_template(retry_template)
+        retry_clicked, retry_position = match_template(retry_template)
+        click(retry_clicked, retry_position)
 
         if retry_clicked:
             once = False
             time.sleep(1)
-            while once is False
-                once = match_template(defense_stats_template)
+            while once is False:
+                once, def_position = match_template(defense_stats_template)
+                click(once, def_position)
 
         time.sleep(0.1)
         # match_template(template_5g)
