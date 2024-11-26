@@ -76,7 +76,7 @@ def main():
                 
             click_gems()
             click_perk()
-            #Every ~2 hours 
+            #Approx. every hour
             if (dailyMissionCounter > 3600):
                 check_daily_missions()
                 dailyMissionCounter = 0
