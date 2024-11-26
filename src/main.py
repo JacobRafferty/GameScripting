@@ -28,31 +28,31 @@ new_perk_template = f"{dir}\\jacob_img\\perk_imgs\\new_perk.png"
 exit_perk_template = f"{dir}\\jacob_img\\perk_imgs\\exit_perks.png"
 
 perk_templates = [
-    f"{dir}\\jacob_img\\perk_imgs\\perk_wave_req.png"
-    f"{dir}\\jacob_img\\perk_imgs\\gold_tower_bonus.png"
-    f"{dir}\\jacob_img\\perk_imgs\\health.png"
-    f"{dir}\\jacob_img\\perk_imgs\\free_upgrade_chance.png"
-    f"{dir}\\jacob_img\\perk_imgs\\extra_orb.png"
-    f"{dir}\\jacob_img\\perk_imgs\\defence_percent.png"
-    f"{dir}\\jacob_img\\perk_imgs\\coin_bonus.png"
-    f"{dir}\\jacob_img\\perk_imgs\\uw_unlock.png"
-    f"{dir}\\jacob_img\\perk_imgs\\game_speed.png"
-    f"{dir}\\jacob_img\\perk_imgs\\damage.png"
-    f"{dir}\\jacob_img\\perk_imgs\\bounce.png"
-    f"{dir}\\jacob_img\\perk_imgs\\cash_bonus.png"
-    f"{dir}\\jacob_img\\perk_imgs\\lightning_dmg.png"
-    f"{dir}\\jacob_img\\perk_imgs\\spotlight_bonus.png"
-    f"{dir}\\jacob_img\\perk_imgs\\smart_missiles.png"
-    f"{dir}\\jacob_img\\perk_imgs\\landmine_damage.png"
-    f"{dir}\\jacob_img\\perk_imgs\\interest.png"
-    f"{dir}\\jacob_img\\perk_imgs\\bossFast_but_weaker.png"
-    f"{dir}\\jacob_img\\perk_imgs\\damage_but_bossHealth.png"
-    f"{dir}\\jacob_img\\perk_imgs\\enemyDamage_but_lessDmg.png"
-    f"{dir}\\jacob_img\\perk_imgs\\lessEnemyHp_but_noRegen.png"
-    f"{dir}\\jacob_img\\perk_imgs\\moreLifesteal_but_lessKnockback.png"
-    f"{dir}\\jacob_img\\perk_imgs\\shorterRangedAttks_but_strongerAttks.png"
-    f"{dir}\\jacob_img\\perk_imgs\\slowEnemy_but_moreDamage.png"
-    f"{dir}\\jacob_img\\perk_imgs\\coins_but_maxHpLess.png"
+    dir + "\\jacob_img\\perk_imgs\\perk_wave_req.png",
+    dir + "\\jacob_img\\perk_imgs\\gold_tower_bonus.png",
+    dir + "\\jacob_img\\perk_imgs\\health.png",
+    dir + "\\jacob_img\\perk_imgs\\free_upgrade_chance.png",
+    dir + "\\jacob_img\\perk_imgs\\defence_percent.png",
+    dir + "\\jacob_img\\perk_imgs\\coin_bonus.png",
+    dir + "\\jacob_img\\perk_imgs\\uw_unlock.png",
+    dir + "\\jacob_img\\perk_imgs\\game_speed.png",
+    dir + "\\jacob_img\\perk_imgs\\damage.png",
+    dir + "\\jacob_img\\perk_imgs\\bounce.png",
+    dir + "\\jacob_img\\perk_imgs\\cash_bonus.png",
+    dir + "\\jacob_img\\perk_imgs\\lightning_dmg.png",
+    dir + "\\jacob_img\\perk_imgs\\spotlight_bonus.png",
+    dir + "\\jacob_img\\perk_imgs\\extra_orb.png",
+    dir + "\\jacob_img\\perk_imgs\\smart_missiles.png",
+    dir + "\\jacob_img\\perk_imgs\\landmine_damage.png",
+    dir + "\\jacob_img\\perk_imgs\\interest.png",
+    dir + "\\jacob_img\\perk_imgs\\bossFast_but_weaker.png",
+    dir + "\\jacob_img\\perk_imgs\\damage_but_bossHealth.png",
+    dir + "\\jacob_img\\perk_imgs\\enemyDamage_but_lessDmg.png",
+    dir + "\\jacob_img\\perk_imgs\\lessEnemyHp_but_noRegen.png",
+    dir + "\\jacob_img\\perk_imgs\\moreLifesteal_but_lessKnockback.png",
+    dir + "\\jacob_img\\perk_imgs\\shorterRangedAttks_but_strongerAttks.png",
+    dir + "\\jacob_img\\perk_imgs\\slowEnemy_but_moreDamage.png",
+    dir + "\\jacob_img\\perk_imgs\\coins_but_maxHpLess.png"
 ]
 
 
@@ -85,7 +85,7 @@ def match_template(template_path, confidence_threshold=0.7):
             return False, 0, 0
 
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error in match template: {e}")
 
 def click(valid, x, y):
     if valid:
@@ -111,14 +111,16 @@ def click_perk():
         click(success, x, y)
 
         for template in perk_templates:
+            print(f"matching template {template}")
+            time.sleep(1)
             success, x, y = match_template(template)
-            if success and (y < 480):
+            if success and (y < 350):
                 click(success, x, y)
                 print(f"x: {x} y: {y}")
                 break
         if not success:
-            click (True, 230, 220)
-        
+            print("no perks found")
+            click(True, 230, 220)
         success, x, y = match_template(exit_perk_template)
         click(success, x, y)
         
@@ -129,19 +131,18 @@ def click_retry():
         once = False
         time.sleep(1)
         while once is False:
-            once, x, y = match_template(retry_template)
+            once, x, y = match_template(defense_stats_template)
             click(once, x, y)
+        
     
 
 def main():
 
     try:
-        print('loop')
         health_iter = 0
         daily_mission_iter = 7200
 
         while True:
-
             click_gems()
             click_perk()
 
@@ -150,12 +151,15 @@ def main():
                 health_iter = 0
             
             click_retry()
-
             time.sleep(0.5)
+            health_iter += 1
 
     except Exception as e:
-        print(f"Exception: {e}")
+        print(f"Exception in main: {e}")
         main()
+
+if __name__ == "__main__":
+    main()
 
     # iter = 0
 
