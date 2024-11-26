@@ -56,13 +56,16 @@ health_workshop_template = f"{dir}\\src\\{user}_img\\health_shop_big.png"
 active_run_menu_template = f"{dir}\\src\\{user}_img\\active_run_menu.png"
 active_daily_task_notification_template = f"{dir}\\src\\{user}_img\\active_daily_task_notification.png"
 claim_daily_task_template = f"{dir}\\src\\{user}_img\\claim_daily_task.png"
+chest_available_template = f"{dir}\\src\\{user}_img\\chest_available.png"
+next_template = f"{dir}\\src\\{user}_img\\next.png"
+claim_template = f"{dir}\\src\\{user}_img\\claim.png"
 tap_to_return_to_game_template = f"{dir}\\src\\{user}_img\\tap_to_return_to_game.png"
 
 def main():
     try:
         print("Running loop...")
         healthCounter = 0
-        dailyMissionCounter = 7200
+        dailyMissionCounter = 3598
         
         while True:
             if (healthCounter > 4):
@@ -74,7 +77,7 @@ def main():
             click_gems()
             click_perk()
             #Every ~2 hours 
-            if (dailyMissionCounter > 7200):
+            if (dailyMissionCounter > 3600):
                 check_daily_missions()
                 dailyMissionCounter = 0
             else:
@@ -200,8 +203,19 @@ def check_daily_missions():
     time.sleep(0.5)
     
     success, x, y = match_template(claim_daily_task_template)
-    click(success, x, y)
-    time.sleep(0.5)
+    while(success):
+        click(success, x, y)
+        success, x, y = match_template(claim_daily_task_template)
+        time.sleep(0.5)
+    
+    success, x, y = match_template(chest_available_template)
+    if success:
+        click(success, x, y)
+        success, x, y = match_template(next_template)
+        click(success, x, y)
+        success, x, y = match_template(claim_template)
+        click(success, x, y)
+        time.sleep(0.5)
      
     success, x, y = match_template(tap_to_return_to_game_template) 
     click(success, x, y)
