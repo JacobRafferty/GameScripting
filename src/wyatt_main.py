@@ -31,6 +31,7 @@ perkTemplates = [
     f"{dir}\\src\\{user}_perks\\bounce_shot_perk.png",
     f"{dir}\\src\\{user}_perks\\damage_perk.png",
     f"{dir}\\src\\{user}_perks\\cash_perk.png",
+    f"{dir}\\src\\{user}_perks\\spotlight_dmg_perk.png",
     f"{dir}\\src\\{user}_perks\\chain_dmg_perk.png",
     f"{dir}\\src\\{user}_perks\\landmine_dmg_perk.png",
     f"{dir}\\src\\{user}_perks\\dmg_reduction_perk.png",
@@ -50,24 +51,28 @@ perkTemplates = [
 ]
         
 health_template = f"{dir}\\src\\{user}_img\\health_small.png"
+def_abs_template = f"{dir}\\src\\{user}_img\\def_abs_small.png"
 retry_template = f"{dir}\\src\\{user}_img\\retry_bigger.png"
 health_workshop_template = f"{dir}\\src\\{user}_img\\health_shop_big.png"
 
 active_run_menu_template = f"{dir}\\src\\{user}_img\\active_run_menu.png"
 active_daily_task_notification_template = f"{dir}\\src\\{user}_img\\active_daily_task_notification.png"
-claim_daily_task_template = f"{dir}\\src\\{user}_img\\claim_daily_task.png"
+claim_daily_task_template = f"{dir}\\src\\{user}_img\\claim_daily_task.png" 
 chest_available_template = f"{dir}\\src\\{user}_img\\chest_available.png"
 next_template = f"{dir}\\src\\{user}_img\\next.png"
 claim_template = f"{dir}\\src\\{user}_img\\claim.png"
 tap_to_return_to_game_template = f"{dir}\\src\\{user}_img\\tap_to_return_to_game.png"
+shop_template = f"{dir}\\src\\{user}_img\\shop.png"
+claim_rewards_template = f"{dir}\\src\\{user}_img\\claim_rewards.png" #Daily 15 gem reward
+skip_template = f"{dir}\\src\\{user}_img\\skip.png" 
 
 def main():
     try:
         print("Running loop...")
         healthCounter = 0
-        dailyMissionCounter = 3598
+        hourCounter = 3598
         
-        while True:
+        while True:       
             if (healthCounter > 4):
                 click_health()
                 healthCounter = 0
@@ -77,11 +82,12 @@ def main():
             click_gems()
             click_perk()
             #Approx. every hour
-            if (dailyMissionCounter > 3600):
+            if (hourCounter > 3600):
                 check_daily_missions()
-                dailyMissionCounter = 0
+                hourCounter = 0
+                check_shop_for_gems()
             else:
-                dailyMissionCounter = dailyMissionCounter + 1
+                hourCounter = hourCounter + 1
                 
             click_retry()
             time.sleep(1)
@@ -114,24 +120,13 @@ def match_template(template_path, confidence_threshold=0.7):
 
         # If the confidence is above the threshold, click
         if max_val >= confidence_threshold:
-            if 'health_small' in template_path:
-                center_x = max_loc[0] + template_width // 2
-                center_y = max_loc[1] + template_height // 2
-                # print(f"Match found at: ({center_x}, {center_y})")
-                
-                clickPoint_x = center_x + 150
-                return(True, clickPoint_x, center_y)
-                
-                #pyautogui.click(clickPoint_x , center_y)
-                # print("Clicked on the matched location.")
-            else:
-                center_x = max_loc[0] + template_width // 2
-                center_y = max_loc[1] + template_height // 2
-                # print(f"Match found at: ({center_x}, {center_y})")
+            center_x = max_loc[0] + template_width // 2
+            center_y = max_loc[1] + template_height // 2
+            # print(f"Match found at: ({center_x}, {center_y})")
 
-                return(True, center_x, center_y)
-                #pyautogui.click(center_x, center_y)
-                # print("Clicked on the matched location.")
+            return(True, center_x, center_y)
+            #pyautogui.click(center_x, center_y)
+            # print("Clicked on the matched location.")
         else:
             return (False, 0, 0)
             # print("No match found with sufficient confidence.")
@@ -153,17 +148,17 @@ def click_gems():
 
 def click_health():
     #Search for health upgrade
-    success, x, y = match_template(health_template)
+    success, x, y = match_template(health_template) #def_abs_template
     if (success):
         #If the health upgrade is found, click it.
-        click(success, x, y)
+        click(success, x+150, y)
     else:
         #Otherwise search and click on the health workshop, then click the health upgrade.
         success, x, y = match_template(health_workshop_template)
         click(success, x, y)
         time.sleep(0.5)
-        success, x, y = match_template(health_template)
-        click(success, x, y)
+        success, x, y = match_template(health_template) #def_abs_template
+        click(success, x+150, y)
     return
 
 def click_retry():
@@ -183,7 +178,7 @@ def click_perk():
             success, x, y = match_template(template)
             if success and (y<480):
                 click(success, x, y)
-                print(f"x:{x}, y:{y}")
+                #print(f"x:{x}, y:{y}")
                 break #Once we click a perk we can stop running through our list.
         if not success:
             #If we don't find a perk, click the top one. 
@@ -208,19 +203,41 @@ def check_daily_missions():
         success, x, y = match_template(claim_daily_task_template)
         time.sleep(0.5)
     
-    success, x, y = match_template(chest_available_template)
-    if success:
-        click(success, x, y)
-        success, x, y = match_template(next_template)
-        click(success, x, y)
-        success, x, y = match_template(claim_template)
-        click(success, x, y)
-        time.sleep(0.5)
+    #success, x, y = match_template(chest_available_template)
+   # if success:
+   #     click(success, x, y)
+   #     success, x, y = match_template(next_template)
+   #     click(success, x, y)
+   #     success, x, y = match_template(claim_template)
+   #     click(success, x, y)
+   #     time.sleep(0.5)
      
     success, x, y = match_template(tap_to_return_to_game_template) 
     click(success, x, y)
     time.sleep(0.5)
     
+    return
+
+def check_shop_for_gems():
+    success, x, y = match_template(active_run_menu_template)
+    click(success, x, y)
+    time.sleep(0.5)
+    
+    success, x, y = match_template(shop_template)
+    click(success, x, y)
+    time.sleep(0.5)    
+    
+    success, x, y = match_template(claim_rewards_template)
+    click(success, x, y)
+    time.sleep(0.5)
+    
+    success, x, y = match_template(skip_template)
+    click(success, x, y)
+    time.sleep(0.5)
+    
+    success, x, y = match_template(tap_to_return_to_game_template) 
+    click(success, x, y)
+    time.sleep(0.5)
     return
 
 if __name__ == "__main__":
