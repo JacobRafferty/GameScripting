@@ -98,11 +98,7 @@ def click(valid, x, y):
 def click_health():
     success, x, y = match_template(health_template)
     if success:
-        # click(success, x + 120, y)
-        click(success, 150, 510)
-        time.sleep(random.randint(1, 10))
-        click(success, 350, 510)
-        
+        click(success, x + 300, y)
 
 def click_gems():
     for template in gem_templates:
@@ -148,7 +144,7 @@ def click_retry():
 def main():
 
     try:
-        health_iter = 100
+        health_iter = 0
 
         while True:
             click_gems()
